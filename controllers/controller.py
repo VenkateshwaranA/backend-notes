@@ -39,17 +39,26 @@ def create_notes(user_id, title, content=""):
 def get_items(userId: str):
     items = list(notes_collection.find({"user_id": userId}))
     for item in items:
-        item["_id"] = str(item["_id"])  
+        item["_id"] = str(item["_id"])
     return items
 
+
 def update_Note(item_id, data):
-    result = notes_collection.update_one(
+    data["last_update"] = datetime.utcnow()
+    notes_collection.update_one(
         {"_id": ObjectId(item_id)},
         {"$set": data}
     )
-    return result.modified_count
+    updated_note = notes_collection.find_one({"_id": ObjectId(item_id)})
+    if updated_note:
+        updated_note["_id"] = str(updated_note["_id"])
+        updated_note["user_id"] = str(updated_note["user_id"])
+
+    return updated_note
 
 
 def delete_note(item_id):
-    result = notes_collection.delete_one({"_id": ObjectId(item_id)})
-    return result.deleted_count
+    note = notes_collection.find_one({"_id": ObjectId(item_id)})
+    notes_collection.delete_one({"_id": ObjectId(item_id)})
+    note["_id"] = str(note["_id"])
+    return note

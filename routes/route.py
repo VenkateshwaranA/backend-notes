@@ -4,7 +4,7 @@ from models.notes import Notes, User, Userlogin
 from config.database import notes_collection, user_collection
 from schema.schemas import list_serial
 from bson import ObjectId
-from controllers.controller import create_user, authenticate_user, create_notes,get_items, update_Note,delete_note
+from controllers.controller import create_user, authenticate_user, create_notes, get_items, update_Note, delete_note
 from auth.jwt import create_access_token
 
 router = APIRouter()
@@ -46,16 +46,21 @@ async def list_items(user_id: str):
     items = get_items(user_id)
     return items
 
+
 @router.put("/note/{note_id}")
 async def update(note_id: str, item: Notes, ):
-    count = update_Note(note_id, item.dict())
-    if count == 0:
-        raise HTTPException(status_code=404, detail="Item not found or not updated")
-    return {"msg": "Updated"}
+    updated_note = update_Note(note_id, item.dict())
+
+    if not updated_note:
+        raise HTTPException(
+            status_code=404, detail="Item not found or not updated")
+    return updated_note
+
 
 @router.delete("/note/{note_id}")
 async def delete(note_id: str):
     count = delete_note(note_id)
-    if count == 0:
-        raise HTTPException(status_code=404, detail="Item not found or not deleted")
-    return {"msg": "Deleted"}
+    if not count:
+        raise HTTPException(
+            status_code=404, detail="Item not found or not deleted")
+    return count
