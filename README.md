@@ -24,44 +24,21 @@ It allows users to **create, view, edit, and delete notes** with proper authenti
 
 ## Backend Requirements
 
-- **Framework**: Python FastAPI / Django / Flask
-- **Database**: MySQL (SQL) or MongoDB (NoSQL)
-- **Authentication**: JWT or session-based
+- **Framework**: Python FastAPI 
+- **Database**: MongoDB (NoSQL)
+- **Authentication**: JWT 
 - **Folder Structure**: Properly organized for maintainability and scalability
 - **Performance**: Optimized endpoints and code (performance testing reports included)
 
 ---
 
-## Database Models
-
-### User
-| Field        | Type     | Description                  |
-|--------------|---------|------------------------------|
-| user_id      | UUID     | Unique identifier for user   |
-| user_name    | varchar  | Name of the user             |
-| user_email   | varchar  | User's email address         |
-| password     | varchar  | Hashed password              |
-| last_update  | date     | Last updated timestamp       |
-| created_on   | date     | Account creation timestamp   |
-
-### Notes
-| Field        | Type     | Description                  |
-|--------------|---------|------------------------------|
-| note_id      | UUID     | Unique identifier for note   |
-| note_title   | varchar  | Title of the note            |
-| note_content | text     | Content of the note          |
-| user_id      | UUID     | Reference to the user        |
-| created_on   | date     | Note creation timestamp      |
-| last_update  | date     | Last updated timestamp       |
-
----
 
 ## API Endpoints
 
 | Endpoint                   | Method | Description                    |
-|-----------------------------|--------|--------------------------------|
-| `/auth/signup`             | POST   | Create a new user              |
-| `/auth/login`              | POST   | User login (returns JWT)       |
+|----------------------------|--------|--------------------------------|
+| `/register`                | POST   | Create a new user              |
+| `/login`                   | POST   | User login (returns JWT)       |
 | `/notes/`                  | GET    | Get all notes for authenticated user |
 | `/notes/`                  | POST   | Create a new note              |
 | `/notes/{note_id}`         | GET    | Get a specific note            |
@@ -81,7 +58,7 @@ cd notes-app
 python -m venv venv
 source venv\Scripts\activate      
 
-pip install -r requirements.txt
+install packages using commend :pip install -r requirements.txt
 
 
 start your application : uvicorn main:app --reload
